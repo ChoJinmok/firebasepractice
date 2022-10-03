@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import {
   BrowserRouter,
   Routes,
@@ -11,9 +9,7 @@ import Home from '../routes/Home';
 import Profile from '../routes/Profile';
 import EditProfile from '../routes/EditProfile';
 
-export default function Router() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+export default function Router({ isLoggedIn }) {
   return (
     <BrowserRouter>
       <Routes>
