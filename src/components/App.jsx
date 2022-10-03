@@ -5,7 +5,7 @@ import Router from './Router';
 import { authService } from '../firebase';
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(authService.currentUser);
+  const [isLoggedIn] = useState(authService.currentUser);
 
   return (
     <>

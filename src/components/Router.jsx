@@ -4,7 +4,7 @@ import {
   Route,
 } from 'react-router-dom';
 
-import Auth from '../routes/Auth';
+import Auth from '../routes/Auth/Auth';
 import Home from '../routes/Home';
 import Profile from '../routes/Profile';
 import EditProfile from '../routes/EditProfile';
