@@ -1,15 +1,16 @@
 import { memo } from 'react';
 
-import EmailLoginForm from './EmailLoginForm';
+import EmailForm from './EmailForm';
 
 export default memo(({
-  loginFields,
+  state: { formFields, newAccount },
   onChange,
   onSubmit,
 }) => (
   <>
-    <EmailLoginForm
-      loginFields={loginFields}
+    <EmailForm
+      formFields={formFields}
+      newAccount={newAccount}
       onChange={onChange}
       onSubmit={onSubmit}
     />

@@ -1,5 +1,6 @@
-export default function EmailLoginForm({
-  loginFields: { email, password },
+export default function EmailForm({
+  formFields: { email, password },
+  newAccount,
   onChange,
   onSubmit,
 }) {
@@ -9,6 +10,7 @@ export default function EmailLoginForm({
 
   function handleSubmit(event) {
     event.preventDefault();
+
     onSubmit();
   }
 
@@ -16,7 +18,7 @@ export default function EmailLoginForm({
     <form onSubmit={handleSubmit}>
       <input
         name="email"
-        type="text"
+        type="email"
         placeholder="Email"
         required
         value={email}
@@ -30,7 +32,7 @@ export default function EmailLoginForm({
         value={password}
         onChange={handleChange}
       />
-      <button type="submit">Log In</button>
+      <button type="submit">{newAccount ? 'Create Account' : 'Log In'}</button>
     </form>
   );
 }
