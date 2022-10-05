@@ -4,7 +4,7 @@ import {
   Route,
 } from 'react-router-dom';
 
-import Auth from '../routes/Auth/Auth';
+import AuthPage from '../routes/Auth/AuthPage';
 import Home from '../routes/Home';
 import Profile from '../routes/Profile';
 import EditProfile from '../routes/EditProfile';
@@ -20,7 +20,7 @@ export default function Router({ isLoggedIn }) {
             <Route path="/" element={<EditProfile />} />
           </>
         ) : (
-          <Route path="/" element={<Auth />} />
+          <Route path="/" element={<AuthPage />} />
         )}
       </Routes>
     </BrowserRouter>

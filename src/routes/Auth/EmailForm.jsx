@@ -1,9 +1,11 @@
-export default function EmailForm({
+import { memo } from 'react';
+
+export default memo(({
   formFields: { email, password },
   newAccount,
   onChange,
   onSubmit,
-}) {
+}) => {
   function handleChange({ target: { name, value } }) {
     onChange({ name, value });
   }
@@ -35,4 +37,4 @@ export default function EmailForm({
       <button type="submit">{newAccount ? 'Create Account' : 'Log In'}</button>
     </form>
   );
-}
+});

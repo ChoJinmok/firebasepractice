@@ -1,10 +1,8 @@
 import { useState, useCallback } from 'react';
 
-import AuthPage from './AuthPage';
-
 import { createUser, postLogin } from '../../services/api';
 
-export default function Auth() {
+export default function useAuthForm() {
   const [state, setState] = useState({
     formFields: {
       email: '',
@@ -27,7 +25,7 @@ export default function Auth() {
     });
   }, [setState]);
 
-  async function fetchAuthData() {
+  const fetchAuthData = useCallback(async () => {
     const { email, password } = state.formFields;
 
     const data = state.newAccount
@@ -35,7 +33,7 @@ export default function Auth() {
       : await postLogin({ email, password });
 
     return data;
-  }
+  }, [state]);
 
   const handleSubmit = useCallback(async () => {
     try {
@@ -46,11 +44,9 @@ export default function Auth() {
     }
   }, [fetchAuthData]);
 
-  return (
-    <AuthPage
-      state={state}
-      onChange={handleChange}
-      onSubmit={handleSubmit}
-    />
-  );
+  return {
+    state,
+    handleChange,
+    handleSubmit,
+  };
 }
