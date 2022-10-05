@@ -1,14 +1,23 @@
 import { useState, useCallback } from 'react';
 
+import { useGlobalState } from '../../GlobalStateProvider';
+
+import { setAccessToken } from '../../action';
+
 import { createUser, postLogin } from '../../services/api';
 
+import { saveItem } from '../../services/storage';
+
 export default function useAuthForm() {
+  const { dispatch } = useGlobalState();
+
   const [state, setState] = useState({
     formFields: {
       email: '',
       password: '',
     },
     newAccount: true,
+    error: '',
   });
 
   const handleChange = useCallback(({ name, value }) => {
@@ -38,15 +47,29 @@ export default function useAuthForm() {
   const handleSubmit = useCallback(async () => {
     try {
       const data = await fetchAuthData();
-      console.log(data);
+
+      dispatch(setAccessToken(data.refreshToken));
+
+      saveItem('accessToken', data.refreshToken);
     } catch (error) {
-      console.log(error);
+      setState((prevState) => ({
+        ...prevState,
+        error: error.message,
+      }));
     }
-  }, [fetchAuthData]);
+  }, [fetchAuthData, dispatch, saveItem]);
+
+  function toggleAccount() {
+    setState((prevState) => ({
+      ...prevState,
+      newAccount: !prevState.newAccount,
+    }));
+  }
 
   return {
     state,
     handleChange,
     handleSubmit,
+    toggleAccount,
   };
 }

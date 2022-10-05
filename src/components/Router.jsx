@@ -9,11 +9,11 @@ import Home from '../routes/Home';
 import Profile from '../routes/Profile';
 import EditProfile from '../routes/EditProfile';
 
-export default function Router({ isLoggedIn }) {
+export default function Router({ accessToken }) {
   return (
     <BrowserRouter>
       <Routes>
-        {isLoggedIn ? (
+        {accessToken ? (
           <>
             <Route path="/" element={<Home />} />
             <Route path="/" element={<Profile />} />

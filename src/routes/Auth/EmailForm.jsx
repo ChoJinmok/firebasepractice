@@ -3,6 +3,7 @@ import { memo } from 'react';
 export default memo(({
   formFields: { email, password },
   newAccount,
+  error,
   onChange,
   onSubmit,
 }) => {
@@ -35,6 +36,7 @@ export default memo(({
         onChange={handleChange}
       />
       <button type="submit">{newAccount ? 'Create Account' : 'Log In'}</button>
+      {error}
     </form>
   );
 });

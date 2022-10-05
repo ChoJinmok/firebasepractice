@@ -17,6 +17,10 @@ export async function createUser({ email, password }) {
 
   const data = await response.json();
 
+  if (data.error) {
+    throw new Error(data.error.message);
+  }
+
   return data;
 }
 
@@ -36,6 +40,10 @@ export async function postLogin({ email, password }) {
   });
 
   const data = await response.json();
+
+  if (data.error) {
+    throw new Error(data.error.message);
+  }
 
   return data;
 }
