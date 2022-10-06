@@ -1,4 +1,10 @@
-import { useState, useCallback } from 'react';
+import {
+  useState,
+  useCallback,
+  useEffect,
+} from 'react';
+
+import { gapi } from 'gapi-script';
 
 import { useGlobalState } from '../../GlobalStateProvider';
 
@@ -8,7 +14,20 @@ import { createUser, postLogin } from '../../services/api';
 
 import { saveItem } from '../../services/storage';
 
+const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
 export default function useAuthForm() {
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId,
+        scope: 'email',
+      });
+    }
+
+    gapi.load('client:auth2', start);
+  }, []);
+
   const { dispatch } = useGlobalState();
 
   const [state, setState] = useState({
@@ -34,6 +53,13 @@ export default function useAuthForm() {
     });
   }, [setState]);
 
+  const setError = useCallback((error) => {
+    setState((prevState) => ({
+      ...prevState,
+      error: error.message,
+    }));
+  }, [setState]);
+
   const fetchAuthData = useCallback(async () => {
     const { email, password } = state.formFields;
 
@@ -52,12 +78,9 @@ export default function useAuthForm() {
 
       saveItem('accessToken', data.refreshToken);
     } catch (error) {
-      setState((prevState) => ({
-        ...prevState,
-        error: error.message,
-      }));
+      setError(error);
     }
-  }, [fetchAuthData, dispatch, saveItem]);
+  }, [fetchAuthData, dispatch, saveItem, setError]);
 
   function toggleAccount() {
     setState((prevState) => ({
@@ -66,10 +89,15 @@ export default function useAuthForm() {
     }));
   }
 
+  const handleClick = useCallback(() => {
+
+  });
+
   return {
     state,
     handleChange,
     handleSubmit,
     toggleAccount,
+    handleClick,
   };
 }

@@ -1,6 +1,8 @@
 import useGetForm from './useGetForm';
+import useGithubLogin from './useGithubLogin';
 
 import EmailForm from './EmailForm';
+import SocialLogin from './SocialLogin';
 
 export default function AuthContainer() {
   const {
@@ -8,7 +10,10 @@ export default function AuthContainer() {
     handleChange,
     handleSubmit,
     toggleAccount,
+    handleClick,
   } = useGetForm();
+
+  useGithubLogin();
 
   return (
     <>
@@ -25,10 +30,7 @@ export default function AuthContainer() {
       >
         {newAccount ? 'Sign In' : 'Create Account'}
       </button>
-      <div>
-        <button type="button">Continue with Google</button>
-        <button type="button">Continue with Github</button>
-      </div>
+      <SocialLogin onClick={handleClick} />
     </>
   );
 }
