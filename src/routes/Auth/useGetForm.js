@@ -1,10 +1,15 @@
 import {
   useState,
   useCallback,
-  useEffect,
 } from 'react';
 
-import { gapi } from 'gapi-script';
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+} from 'firebase/auth';
+
+import { auth } from '../../firebase';
 
 import { useGlobalState } from '../../GlobalStateProvider';
 
@@ -14,20 +19,7 @@ import { createUser, postLogin } from '../../services/api';
 
 import { saveItem } from '../../services/storage';
 
-const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-
 export default function useAuthForm() {
-  useEffect(() => {
-    function start() {
-      gapi.client.init({
-        clientId,
-        scope: 'email',
-      });
-    }
-
-    gapi.load('client:auth2', start);
-  }, []);
-
   const { dispatch } = useGlobalState();
 
   const [state, setState] = useState({
@@ -89,8 +81,22 @@ export default function useAuthForm() {
     }));
   }
 
-  const handleClick = useCallback(() => {
+  const handleClick = useCallback(async (name) => {
+    const provider = {
+      google: new GoogleAuthProvider(),
+      github: new GithubAuthProvider(),
+    }[name];
 
+    const result = await signInWithPopup(auth, provider);
+
+    const { accessToken } = {
+      google: GoogleAuthProvider.credentialFromResult(result),
+      github: GithubAuthProvider.credentialFromResult(result),
+    }[name];
+
+    dispatch(setAccessToken(accessToken));
+
+    saveItem('accessToken', accessToken);
   });
 
   return {

@@ -1,5 +1,4 @@
 import useGetForm from './useGetForm';
-import useGithubLogin from './useGithubLogin';
 
 import EmailForm from './EmailForm';
 import SocialLogin from './SocialLogin';
@@ -12,8 +11,6 @@ export default function AuthContainer() {
     toggleAccount,
     handleClick,
   } = useGetForm();
-
-  useGithubLogin();
 
   return (
     <>
