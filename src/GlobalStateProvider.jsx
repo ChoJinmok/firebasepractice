@@ -26,6 +26,13 @@ const reducers = {
       init,
     };
   },
+
+  logout(state) {
+    return {
+      ...state,
+      accessToken: '',
+    };
+  },
 };
 
 function defaultReducer(state) {

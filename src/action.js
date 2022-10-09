@@ -11,3 +11,9 @@ export function setInit(init) {
     payload: init,
   };
 }
+
+export function logout() {
+  return {
+    type: 'logout',
+  };
+}

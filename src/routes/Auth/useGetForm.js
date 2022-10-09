@@ -60,7 +60,7 @@ export default function useAuthForm() {
     } catch (error) {
       setError(error);
     }
-  }, [state, dispatch, setAccessToken, setError, postEmailPassword, saveItem]);
+  }, [state, dispatch, setError, postEmailPassword, saveItem]);
 
   function toggleAccount() {
     setState((prevState) => ({
