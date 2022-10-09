@@ -42,7 +42,5 @@ export async function postAuthProvider(name) {
 
   const result = await signInWithPopup(auth, provider);
 
-  console.log(result.user);
-
   return result.user.stsTokenManager.refreshToken;
 }

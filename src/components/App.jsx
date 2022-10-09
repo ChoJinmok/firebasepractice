@@ -12,10 +12,10 @@ export default function App() {
   const { state: { refreshToken }, dispatch } = useGlobalState();
 
   useEffect(() => {
-    const storageRefreshToken = loadItem('refreshToken');
+    const cookieRefreshToken = loadItem('refreshToken');
 
-    if (storageRefreshToken) {
-      dispatch(setRefreshToken(storageRefreshToken));
+    if (cookieRefreshToken) {
+      dispatch(setRefreshToken(cookieRefreshToken));
     }
   }, [loadItem, dispatch]);
 
