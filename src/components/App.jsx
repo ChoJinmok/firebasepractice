@@ -15,12 +15,16 @@ export default function App() {
   useEffect(() => {
     const refreshToken = loadItem('refreshToken');
 
-    if (refreshToken) {
-      postRefreshToken(refreshToken)
-        .then((res) => dispatch(setAccessToken(res)))
-        .then(() => dispatch(setInit(true)));
-    }
-  }, [loadItem, postRefreshToken, dispatch, setInit]);
+    (async () => {
+      if (refreshToken) {
+        const token = await postRefreshToken(refreshToken);
+
+        dispatch(setAccessToken(token));
+      }
+
+      dispatch(setInit(true));
+    })();
+  }, [loadItem, postRefreshToken, dispatch]);
 
   return (
     <>
