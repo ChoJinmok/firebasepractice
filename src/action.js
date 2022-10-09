@@ -1,11 +1,13 @@
 export function setAccessToken(accessToken) {
   return {
     type: 'setAccessToken',
-    payload: {
-      accessToken,
-    },
+    payload: accessToken,
   };
 }
 
-// TODO : remove
-export const xx = 'xx';
+export function setInit(init) {
+  return {
+    type: 'setInit',
+    payload: init,
+  };
+}

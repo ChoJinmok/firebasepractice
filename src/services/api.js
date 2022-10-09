@@ -49,7 +49,7 @@ export async function postEmailPassword({ email, password, newAccount }) {
 
   const { refreshToken } = data;
 
-  const accessToken = postRefreshToken(refreshToken);
+  const accessToken = await postRefreshToken(refreshToken);
 
   return { accessToken, refreshToken };
 }

@@ -9,13 +9,21 @@ const GlobalStateContext = createContext();
 
 const initailState = {
   accessToken: '',
+  init: false,
 };
 
 const reducers = {
-  setAccessToken(state, { payload: { accessToken } }) {
+  setAccessToken(state, { payload: accessToken }) {
     return {
       ...state,
       accessToken,
+    };
+  },
+
+  setInit(state, { payload: init }) {
+    return {
+      ...state,
+      init,
     };
   },
 };
