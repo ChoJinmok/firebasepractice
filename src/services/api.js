@@ -8,6 +8,22 @@ import { auth } from '../firebase';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
+export async function postRefreshToken(refreshToken) {
+  const url = `https://securetoken.googleapis.com/v1/token?key=${API_KEY}`
+  + `&grant_type=refresh_token&refresh_token=${refreshToken}`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  });
+
+  const { access_token: accessToken } = await response.json();
+
+  return accessToken;
+}
+
 export async function postEmailPassword({ email, password, newAccount }) {
   const url = newAccount
     ? `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`
@@ -31,7 +47,11 @@ export async function postEmailPassword({ email, password, newAccount }) {
     throw new Error(data.error.message);
   }
 
-  return data.refreshToken;
+  const { refreshToken } = data;
+
+  const accessToken = postRefreshToken(refreshToken);
+
+  return { accessToken, refreshToken };
 }
 
 export async function postAuthProvider(name) {
@@ -40,7 +60,11 @@ export async function postAuthProvider(name) {
     github() { return new GithubAuthProvider(); },
   }[name]();
 
-  const result = await signInWithPopup(auth, provider);
+  const {
+    user: {
+      stsTokenManager: { accessToken, refreshToken },
+    },
+  } = await signInWithPopup(auth, provider);
 
-  return result.user.stsTokenManager.refreshToken;
+  return { accessToken, refreshToken };
 }

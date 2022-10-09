@@ -5,7 +5,7 @@ import {
 
 import { useGlobalState } from '../../GlobalStateProvider';
 
-import { setRefreshToken } from '../../action';
+import { setAccessToken } from '../../action';
 
 import {
   postEmailPassword,
@@ -51,15 +51,16 @@ export default function useAuthForm() {
     const { formFields: { email, password }, newAccount } = state;
 
     try {
-      const refreshToken = await postEmailPassword({ email, password, newAccount });
+      const { accessToken, refreshToken } = await
+      postEmailPassword({ email, password, newAccount });
 
-      dispatch(setRefreshToken(refreshToken));
+      dispatch(setAccessToken(accessToken));
 
       saveItem('refreshToken', refreshToken);
     } catch (error) {
       setError(error);
     }
-  }, [state, dispatch, setRefreshToken, setError, postEmailPassword, saveItem]);
+  }, [state, dispatch, setAccessToken, setError, postEmailPassword, saveItem]);
 
   function toggleAccount() {
     setState((prevState) => ({
@@ -69,12 +70,12 @@ export default function useAuthForm() {
   }
 
   const handleClick = useCallback(async (name) => {
-    const refreshToken = await postAuthProvider(name);
+    const { accessToken, refreshToken } = await postAuthProvider(name);
 
-    dispatch(setRefreshToken(refreshToken));
+    dispatch(setAccessToken(accessToken));
 
     saveItem('refreshToken', refreshToken);
-  }, [postAuthProvider, dispatch, setRefreshToken, saveItem]);
+  }, [postAuthProvider, dispatch, setAccessToken, saveItem]);
 
   return {
     state,

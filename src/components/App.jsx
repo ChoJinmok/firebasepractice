@@ -4,24 +4,26 @@ import Router from './Router';
 
 import { useGlobalState } from '../GlobalStateProvider';
 
-import { setRefreshToken } from '../action';
+import { setAccessToken } from '../action';
 
+import { postRefreshToken } from '../services/api';
 import { loadItem } from '../services/storage';
 
 export default function App() {
-  const { state: { refreshToken }, dispatch } = useGlobalState();
+  const { state: { accessToken }, dispatch } = useGlobalState();
 
   useEffect(() => {
-    const cookieRefreshToken = loadItem('refreshToken');
+    const refreshToken = loadItem('refreshToken');
 
-    if (cookieRefreshToken) {
-      dispatch(setRefreshToken(cookieRefreshToken));
+    if (refreshToken) {
+      postRefreshToken(refreshToken)
+        .then((res) => dispatch(setAccessToken(res)));
     }
-  }, [loadItem, dispatch]);
+  }, [loadItem, postRefreshToken, dispatch]);
 
   return (
     <>
-      <Router refreshToken={refreshToken} />
+      <Router accessToken={accessToken} />
       <footer>
         &copy;
         {new Date().getFullYear()}

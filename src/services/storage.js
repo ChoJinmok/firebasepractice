@@ -3,11 +3,7 @@ export function saveItem(key, value) {
 
   const exdate = new Date();
 
-  if (key === 'refreshToken') {
-    exdate.setDate(exdate.getDate() + 14);
-  }
-
-  exdate.setSeconds(exdate.getSeconds() + 3600);
+  exdate.setDate(exdate.getDate() + 14);
 
   document.cookie = `${key} = ${value}; expires = ${exdate.toUTCString()}`;
 }
@@ -20,11 +16,8 @@ export function loadItem(key) {
 
   for (let i = 0; i < val.length; i += 1) {
     const x = val[i].substring(0, val[i].indexOf('=')).replace(/^\s+|\s+$/g, '');
-    const y = val[i].substring(val[i].indexOf('=') + 1);
 
-    if (x === key) {
-      return y;
-    }
+    if (x === key) return val[i].substring(val[i].indexOf('=') + 1);
   }
 
   return null;
