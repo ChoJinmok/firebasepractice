@@ -1,8 +1,8 @@
-export function setAccessToken(accessToken) {
+export function setRefreshToken(refreshToken) {
   return {
-    type: 'setAccessToken',
+    type: 'setRefreshToken',
     payload: {
-      accessToken,
+      refreshToken,
     },
   };
 }

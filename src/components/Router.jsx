@@ -9,11 +9,11 @@ import Home from '../routes/Home';
 import Profile from '../routes/Profile';
 import EditProfile from '../routes/EditProfile';
 
-export default function Router({ accessToken }) {
+export default function Router({ refreshToken }) {
   return (
     <BrowserRouter>
       <Routes>
-        {accessToken ? (
+        {refreshToken ? (
           <>
             <Route path="/" element={<Home />} />
             <Route path="/" element={<Profile />} />

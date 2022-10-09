@@ -1,34 +1,17 @@
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+} from 'firebase/auth';
+
+import { auth } from '../firebase';
+
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-const gitgubClientId = process.env.REACT_APP_GITHUB_CLIENT_ID;
-const githubClientSecret = process.env.REACT_APP_GITHUB_CLIENT_SECRET;
-
-export async function createUser({ email, password }) {
-  const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
-
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      email,
-      password,
-      returnSecureToken: true,
-    }),
-  });
-
-  const data = await response.json();
-
-  if (data.error) {
-    throw new Error(data.error.message);
-  }
-
-  return data;
-}
-
-export async function postLogin({ email, password }) {
-  const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
+export async function postEmailPassword({ email, password, newAccount }) {
+  const url = newAccount
+    ? `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`
+    : `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
 
   const response = await fetch(url, {
     method: 'POST',
@@ -48,25 +31,18 @@ export async function postLogin({ email, password }) {
     throw new Error(data.error.message);
   }
 
-  return data;
+  return data.refreshToken;
 }
 
-export async function loadGithubAccessToken(code) {
-  const url = 'https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token'
-  + `?client_id=${gitgubClientId}&client_secret=${githubClientSecret}&code=${code}`;
+export async function postAuthProvider(name) {
+  const provider = {
+    google() { return new GoogleAuthProvider(); },
+    github() { return new GithubAuthProvider(); },
+  }[name]();
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-    },
-  });
+  const result = await signInWithPopup(auth, provider);
 
-  const data = await response.json();
+  console.log(result.user);
 
-  if (data.error) {
-    throw new Error(data.error_description);
-  }
-
-  return data.access_Token;
+  return result.user.stsTokenManager.refreshToken;
 }

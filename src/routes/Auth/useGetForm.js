@@ -3,19 +3,14 @@ import {
   useCallback,
 } from 'react';
 
-import {
-  signInWithPopup,
-  GoogleAuthProvider,
-  GithubAuthProvider,
-} from 'firebase/auth';
-
-import { auth } from '../../firebase';
-
 import { useGlobalState } from '../../GlobalStateProvider';
 
-import { setAccessToken } from '../../action';
+import { setRefreshToken } from '../../action';
 
-import { createUser, postLogin } from '../../services/api';
+import {
+  postEmailPassword,
+  postAuthProvider,
+} from '../../services/api';
 
 import { saveItem } from '../../services/storage';
 
@@ -52,27 +47,19 @@ export default function useAuthForm() {
     }));
   }, [setState]);
 
-  const fetchAuthData = useCallback(async () => {
-    const { email, password } = state.formFields;
-
-    const data = state.newAccount
-      ? await createUser({ email, password })
-      : await postLogin({ email, password });
-
-    return data;
-  }, [state]);
-
   const handleSubmit = useCallback(async () => {
+    const { formFields: { email, password }, newAccount } = state;
+
     try {
-      const data = await fetchAuthData();
+      const refreshToken = await postEmailPassword({ email, password, newAccount });
 
-      dispatch(setAccessToken(data.refreshToken));
+      dispatch(setRefreshToken(refreshToken));
 
-      saveItem('accessToken', data.refreshToken);
+      saveItem('refreshToken', refreshToken);
     } catch (error) {
       setError(error);
     }
-  }, [fetchAuthData, dispatch, saveItem, setError]);
+  }, [state, dispatch, setRefreshToken, setError, postEmailPassword, saveItem]);
 
   function toggleAccount() {
     setState((prevState) => ({
@@ -82,22 +69,12 @@ export default function useAuthForm() {
   }
 
   const handleClick = useCallback(async (name) => {
-    const provider = {
-      google: new GoogleAuthProvider(),
-      github: new GithubAuthProvider(),
-    }[name];
+    const refreshToken = await postAuthProvider(name);
 
-    const result = await signInWithPopup(auth, provider);
+    dispatch(setRefreshToken(refreshToken));
 
-    const { accessToken } = {
-      google: GoogleAuthProvider.credentialFromResult(result),
-      github: GithubAuthProvider.credentialFromResult(result),
-    }[name];
-
-    dispatch(setAccessToken(accessToken));
-
-    saveItem('accessToken', accessToken);
-  });
+    saveItem('refreshToken', refreshToken);
+  }, [postAuthProvider, dispatch, setRefreshToken, saveItem]);
 
   return {
     state,

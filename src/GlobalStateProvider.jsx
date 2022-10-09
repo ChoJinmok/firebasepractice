@@ -8,14 +8,14 @@ import {
 const GlobalStateContext = createContext();
 
 const initailState = {
-  accessToken: '',
+  refreshToken: '',
 };
 
 const reducers = {
-  setAccessToken(state, { payload: { accessToken } }) {
+  setRefreshToken(state, { payload: { refreshToken } }) {
     return {
       ...state,
-      accessToken,
+      refreshToken,
     };
   },
 };
