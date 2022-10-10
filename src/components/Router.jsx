@@ -7,7 +7,7 @@ import {
 
 import AuthPage from '../routes/Auth/AuthPage';
 import Navigation from './Navigation';
-import Home from '../routes/Home';
+import HomePage from '../routes/Home/HomePage';
 import Profile from '../routes/Profile';
 import EditProfile from '../routes/EditProfile';
 
@@ -18,7 +18,7 @@ export default function Router({ accessToken }) {
       <Routes>
         {accessToken ? (
           <>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/edit" element={<EditProfile />} />
             <Route path="*" element={<Navigate to="/" replace />} />
