@@ -7,6 +7,7 @@ import {
 import { auth } from '../firebase';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
+const PROJECT_ID = process.env.REACT_APP_PROJECT_ID;
 
 export async function postRefreshToken(refreshToken) {
   const url = `https://securetoken.googleapis.com/v1/token?key=${API_KEY}`
@@ -19,9 +20,9 @@ export async function postRefreshToken(refreshToken) {
     },
   });
 
-  const { access_token: accessToken } = await response.json();
+  const { id_token: idToken } = await response.json();
 
-  return accessToken;
+  return idToken;
 }
 
 export async function postEmailPassword({ email, password, newAccount }) {
@@ -47,11 +48,9 @@ export async function postEmailPassword({ email, password, newAccount }) {
     throw new Error(data.error.message);
   }
 
-  const { refreshToken } = data;
+  const { idToken, refreshToken } = data;
 
-  const accessToken = await postRefreshToken(refreshToken);
-
-  return { accessToken, refreshToken };
+  return { idToken, refreshToken };
 }
 
 export async function postAuthProvider(name) {
@@ -62,9 +61,39 @@ export async function postAuthProvider(name) {
 
   const {
     user: {
-      stsTokenManager: { accessToken, refreshToken },
+      stsTokenManager: { refreshToken },
     },
   } = await signInWithPopup(auth, provider);
 
-  return { accessToken, refreshToken };
+  const idToken = await postRefreshToken(refreshToken);
+
+  return { idToken, refreshToken };
+}
+
+export async function postNweet({ idToken, nweet }) {
+  const url = `https://${PROJECT_ID}-default-rtdb.asia-southeast1.firebasedatabase.app`
+  + `/nweets.json?auth=${idToken}`;
+
+  await fetch(url, {
+    method: 'POST',
+    // headers: {
+    //   'Content-Type': 'application/json',
+    //   Authorization: `Bearer ${accessToken}`,
+    // },
+    body: JSON.stringify({
+      nweet,
+      createdAt: Date.now(),
+    }),
+  });
+}
+
+export async function loadNweets(idToken) {
+  const url = `https://${PROJECT_ID}-default-rtdb.asia-southeast1.firebasedatabase.app`
+  + `/nweets.json?auth=${idToken}`;
+
+  const response = await fetch(url);
+
+  const data = await response.json();
+
+  return data;
 }

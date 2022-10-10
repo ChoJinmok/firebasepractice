@@ -8,15 +8,15 @@ import {
 const GlobalStateContext = createContext();
 
 const initailState = {
-  accessToken: '',
+  idToken: '',
   init: false,
 };
 
 const reducers = {
-  setAccessToken(state, { payload: accessToken }) {
+  setIdToken(state, { payload: idToken }) {
     return {
       ...state,
-      accessToken,
+      idToken,
     };
   },
 
@@ -30,7 +30,7 @@ const reducers = {
   logout(state) {
     return {
       ...state,
-      accessToken: '',
+      idToken: '',
     };
   },
 };

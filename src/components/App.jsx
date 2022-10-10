@@ -4,13 +4,13 @@ import Router from './Router';
 
 import { useGlobalState } from '../GlobalStateProvider';
 
-import { setAccessToken, setInit } from '../action';
+import { setIdToken, setInit } from '../action';
 
 import { postRefreshToken } from '../services/api';
 import { loadItem } from '../services/storage';
 
 export default function App() {
-  const { state: { accessToken, init }, dispatch } = useGlobalState();
+  const { state: { idToken, init }, dispatch } = useGlobalState();
 
   useEffect(() => {
     const refreshToken = loadItem('refreshToken');
@@ -19,7 +19,7 @@ export default function App() {
       if (refreshToken) {
         const token = await postRefreshToken(refreshToken);
 
-        dispatch(setAccessToken(token));
+        dispatch(setIdToken(token));
       }
 
       dispatch(setInit(true));
@@ -28,7 +28,7 @@ export default function App() {
 
   return (
     <>
-      {init ? <Router accessToken={accessToken} /> : 'Initializing...'}
+      {init ? <Router idToken={idToken} /> : 'Initializing...'}
       <footer>
         &copy;
         {new Date().getFullYear()}

@@ -1,7 +1,7 @@
-export function setAccessToken(accessToken) {
+export function setIdToken(idToken) {
   return {
-    type: 'setAccessToken',
-    payload: accessToken,
+    type: 'setIdToken',
+    payload: idToken,
   };
 }
 

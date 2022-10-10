@@ -5,7 +5,7 @@ import {
 
 import { useGlobalState } from '../../GlobalStateProvider';
 
-import { setAccessToken } from '../../action';
+import { setIdToken } from '../../action';
 
 import {
   postEmailPassword,
@@ -51,10 +51,10 @@ export default function useAuthForm() {
     const { formFields: { email, password }, newAccount } = state;
 
     try {
-      const { accessToken, refreshToken } = await
+      const { idToken, refreshToken } = await
       postEmailPassword({ email, password, newAccount });
 
-      dispatch(setAccessToken(accessToken));
+      dispatch(setIdToken(idToken));
 
       saveItem('refreshToken', refreshToken);
     } catch (error) {
@@ -70,12 +70,12 @@ export default function useAuthForm() {
   }
 
   const handleClick = useCallback(async (name) => {
-    const { accessToken, refreshToken } = await postAuthProvider(name);
+    const { idToken, refreshToken } = await postAuthProvider(name);
 
-    dispatch(setAccessToken(accessToken));
+    dispatch(setIdToken(idToken));
 
     saveItem('refreshToken', refreshToken);
-  }, [postAuthProvider, dispatch, setAccessToken, saveItem]);
+  }, [postAuthProvider, dispatch, setIdToken, saveItem]);
 
   return {
     state,

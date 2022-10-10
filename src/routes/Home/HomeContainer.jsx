@@ -1,10 +1,11 @@
 import useNweetForm from './useNweetForm';
 
 import NweetForm from './NweetForm';
+import Nweets from './Nweets';
 
 export default function HomeContainer() {
   const {
-    state: { nweet },
+    state: { nweet, nweets },
     handleChange,
     handleSubmit,
   } = useNweetForm();
@@ -16,6 +17,7 @@ export default function HomeContainer() {
         onChange={handleChange}
         onSubmit={handleSubmit}
       />
+      <Nweets nweets={nweets} />
     </div>
   );
 }
