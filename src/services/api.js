@@ -70,7 +70,7 @@ export async function postAuthProvider(name) {
   return { idToken, refreshToken };
 }
 
-export async function postNweet({ idToken, nweet }) {
+export async function postNweet({ idToken, nweet, createdAt }) {
   const url = `https://${PROJECT_ID}-default-rtdb.asia-southeast1.firebasedatabase.app`
   + `/nweets.json?auth=${idToken}`;
 
@@ -82,7 +82,7 @@ export async function postNweet({ idToken, nweet }) {
     // },
     body: JSON.stringify({
       nweet,
-      createdAt: Date.now(),
+      createdAt,
     }),
   });
 }

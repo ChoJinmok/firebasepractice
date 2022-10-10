@@ -4,6 +4,8 @@ import {
   useEffect,
 } from 'react';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import {
   postNweet,
   postRefreshToken,
@@ -45,17 +47,22 @@ export default function useNweetForm() {
   });
 
   const handleSubmit = useCallback(async () => {
-    const { nweet } = state;
-
     const refreshToken = loadItem('refreshToken');
 
     const idToken = await postRefreshToken(refreshToken);
 
-    await postNweet({ idToken, nweet });
+    const { nweet } = state;
+
+    const createdAt = Date.now();
+
+    postNweet({ idToken, nweet, createdAt });
+
+    const id = uuidv4();
 
     setState((prevState) => ({
       ...prevState,
       nweet: '',
+      nweets: [...prevState.nweets, { id, nweet, createdAt }],
     }));
   });
 
