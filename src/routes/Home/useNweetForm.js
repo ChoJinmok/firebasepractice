@@ -6,6 +6,8 @@ import {
 
 import { v4 as uuidv4 } from 'uuid';
 
+import { useGlobalState } from '../../GlobalStateProvider';
+
 import {
   postNweet,
   postRefreshToken,
@@ -15,8 +17,10 @@ import {
 import { loadItem } from '../../services/storage';
 
 export default function useNweetForm() {
+  const { state: { uid } } = useGlobalState();
+
   const [state, setState] = useState({
-    nweet: '',
+    nweetContent: '',
     nweets: [],
   });
 
@@ -24,12 +28,16 @@ export default function useNweetForm() {
     (async () => {
       const refreshToken = loadItem('refreshToken');
 
-      const nweetsObject = await loadNweets(refreshToken);
+      const idToken = await postRefreshToken(refreshToken);
+
+      const nweetsObject = await loadNweets(idToken);
+
+      if (!nweetsObject) return;
 
       const nweets = Object.entries(nweetsObject).map((nweetInformations) => {
-        const [id, { createdAt, nweet }] = nweetInformations;
+        const [id, { createdAt, nweetContent }] = nweetInformations;
 
-        return { id, createdAt, nweet };
+        return { id, createdAt, nweetContent };
       });
 
       setState((prevState) => ({
@@ -37,35 +45,40 @@ export default function useNweetForm() {
         nweets,
       }));
     })();
-  }, []);
+  }, [setState]);
 
   const handleChange = useCallback((value) => {
     setState((prevState) => ({
       ...prevState,
-      nweet: value,
+      nweetContent: value,
     }));
-  });
+  }, [setState]);
+
+  const setNweets = useCallback(({ nweetContent, createdAt }) => {
+    setState((prevState) => ({
+      ...prevState,
+      nweetContent: '',
+      nweets: [...prevState.nweets, {
+        id: uuidv4(), creatorId: uid, nweetContent, createdAt,
+      }],
+    }));
+  }, [uuidv4, setState]);
 
   const handleSubmit = useCallback(async () => {
     const refreshToken = loadItem('refreshToken');
 
     const idToken = await postRefreshToken(refreshToken);
 
-    const { nweet } = state;
+    const { nweetContent } = state;
 
     const createdAt = Date.now();
 
-    postNweet({ idToken, nweet, createdAt });
+    postNweet({
+      idToken, creatorId: uid, nweetContent, createdAt,
+    });
 
-    const id = uuidv4();
-
-    setState((prevState) => ({
-      ...prevState,
-      nweet: '',
-      nweets: [...prevState.nweets, { id, nweet, createdAt }],
-    }));
-  });
-
+    setNweets({ nweetContent, createdAt });
+  }, [state, setNweets]);
   return {
     state,
     handleChange,

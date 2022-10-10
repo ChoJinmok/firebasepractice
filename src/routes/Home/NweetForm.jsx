@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-export default memo(({ nweet, onChange, onSubmit }) => {
+export default memo(({ nweetContent, onChange, onSubmit }) => {
   function handleChange({ target: { value } }) {
     onChange(value);
   }
@@ -14,7 +14,7 @@ export default memo(({ nweet, onChange, onSubmit }) => {
   return (
     <form onSubmit={handleSubmit}>
       <input
-        value={nweet}
+        value={nweetContent}
         onChange={handleChange}
         type="text"
         placeholder="What's on your mind?"

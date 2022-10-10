@@ -20,9 +20,9 @@ export async function postRefreshToken(refreshToken) {
     },
   });
 
-  const { id_token: idToken } = await response.json();
+  const { id_token: idToken, user_id: uid } = await response.json();
 
-  return idToken;
+  return { idToken, uid };
 }
 
 export async function postEmailPassword({ email, password, newAccount }) {
@@ -48,9 +48,11 @@ export async function postEmailPassword({ email, password, newAccount }) {
     throw new Error(data.error.message);
   }
 
-  const { idToken, refreshToken } = data;
+  const { refreshToken } = data;
 
-  return { idToken, refreshToken };
+  const { uid } = await postRefreshToken(refreshToken);
+
+  return { uid, refreshToken };
 }
 
 export async function postAuthProvider(name) {
@@ -61,16 +63,17 @@ export async function postAuthProvider(name) {
 
   const {
     user: {
+      uid,
       stsTokenManager: { refreshToken },
     },
   } = await signInWithPopup(auth, provider);
 
-  const idToken = await postRefreshToken(refreshToken);
-
-  return { idToken, refreshToken };
+  return { uid, refreshToken };
 }
 
-export async function postNweet({ idToken, nweet, createdAt }) {
+export async function postNweet({
+  idToken, creatorId, nweetContent, createdAt,
+}) {
   const url = `https://${PROJECT_ID}-default-rtdb.asia-southeast1.firebasedatabase.app`
   + `/nweets.json?auth=${idToken}`;
 
@@ -81,7 +84,8 @@ export async function postNweet({ idToken, nweet, createdAt }) {
     //   Authorization: `Bearer ${accessToken}`,
     // },
     body: JSON.stringify({
-      nweet,
+      creatorId,
+      nweetContent,
       createdAt,
     }),
   });

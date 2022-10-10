@@ -1,7 +1,14 @@
-export function setIdToken(idToken) {
+export function setRefreshToken(refreshToken) {
   return {
-    type: 'setIdToken',
-    payload: idToken,
+    type: 'setRefreshToken',
+    payload: refreshToken,
+  };
+}
+
+export function setUid(uid) {
+  return {
+    type: 'setUid',
+    payload: uid,
   };
 }
 

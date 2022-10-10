@@ -11,12 +11,12 @@ import HomePage from '../routes/Home/HomePage';
 import Profile from '../routes/Profile';
 import EditProfile from '../routes/EditProfile';
 
-export default function Router({ idToken }) {
+export default function Router({ refreshToken }) {
   return (
     <BrowserRouter>
-      {idToken && <Navigation />}
+      {refreshToken && <Navigation />}
       <Routes>
-        {idToken ? (
+        {refreshToken ? (
           <>
             <Route path="/" element={<HomePage />} />
             <Route path="/profile" element={<Profile />} />

@@ -8,15 +8,23 @@ import {
 const GlobalStateContext = createContext();
 
 const initailState = {
-  idToken: '',
+  refreshToken: '',
+  uid: null,
   init: false,
 };
 
 const reducers = {
-  setIdToken(state, { payload: idToken }) {
+  setRefreshToken(state, { payload: refreshToken }) {
     return {
       ...state,
-      idToken,
+      refreshToken,
+    };
+  },
+
+  setUid(state, { payload: uid }) {
+    return {
+      ...state,
+      uid,
     };
   },
 
@@ -31,6 +39,8 @@ const reducers = {
     return {
       ...state,
       idToken: '',
+      refreshToken: '',
+      uid: null,
     };
   },
 };
