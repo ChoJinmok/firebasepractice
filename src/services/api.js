@@ -117,3 +117,15 @@ export function deleteNweet({ nweetId, idToken }) {
     },
   });
 }
+
+export function editNweet({ nweetId, idToken, newNweet }) {
+  const url = `https://${PROJECT_ID}-default-rtdb.asia-southeast1.firebasedatabase.app`
+  + `/nweets/${nweetId}/.json?auth=${idToken}`;
+
+  fetch(url, {
+    method: 'PATCH',
+    body: JSON.stringify({
+      nweetContent: newNweet,
+    }),
+  });
+}

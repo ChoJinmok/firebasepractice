@@ -10,6 +10,10 @@ export default function HomeContainer() {
     handleChange,
     handleSubmit,
     handleDeleteClick,
+    handleToggleEditingClick,
+    handleEditingChange,
+    handleCancelClick,
+    handleEditSubmit,
   } = useNweetForm();
 
   return (
@@ -23,6 +27,10 @@ export default function HomeContainer() {
         nweets={nweets}
         uid={uid}
         onDeleteClick={handleDeleteClick}
+        onToggleEditingClick={handleToggleEditingClick}
+        onEditingChange={handleEditingChange}
+        onCancelClick={handleCancelClick}
+        onEditSubmit={handleEditSubmit}
       />
     </div>
   );
