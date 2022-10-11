@@ -9,9 +9,9 @@ export default function HomeContainer() {
     state: { nweetContent, nweets },
     handleChange,
     handleSubmit,
+    handleDeleteClick,
   } = useNweetForm();
 
-  console.log(nweets);
   return (
     <div>
       <NweetForm
@@ -22,6 +22,7 @@ export default function HomeContainer() {
       <Nweets
         nweets={nweets}
         uid={uid}
+        onDeleteClick={handleDeleteClick}
       />
     </div>
   );

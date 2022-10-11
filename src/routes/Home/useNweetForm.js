@@ -10,6 +10,7 @@ import {
   postNweet,
   postRefreshToken,
   loadNweets,
+  deleteNweet,
 } from '../../services/api';
 
 import { loadItem } from '../../services/storage';
@@ -79,10 +80,25 @@ export default function useNweetForm() {
 
     setNweets({ id, nweetContent, createdAt });
   }, [state, setNweets]);
+
+  const handleDeleteClick = useCallback(async (nweetId) => {
+    const refreshToken = loadItem('refreshToken');
+
+    const { idToken } = await postRefreshToken(refreshToken);
+
+    deleteNweet({ nweetId, idToken });
+
+    setState((prevState) => ({
+      ...prevState,
+      nweets: [...prevState.nweets].filter((({ id }) => id !== nweetId)),
+    }));
+  }, []);
+
   return {
     uid,
     state,
     handleChange,
     handleSubmit,
+    handleDeleteClick,
   };
 }

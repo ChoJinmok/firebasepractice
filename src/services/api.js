@@ -105,3 +105,15 @@ export async function loadNweets(idToken) {
 
   return data;
 }
+
+export function deleteNweet({ nweetId, idToken }) {
+  const url = `https://${PROJECT_ID}-default-rtdb.asia-southeast1.firebasedatabase.app`
+  + `/nweets/${nweetId}.json?auth=${idToken}`;
+
+  fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'X-HTTP-Method-Override': 'DELETE',
+    },
+  });
+}
