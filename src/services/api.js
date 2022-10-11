@@ -77,7 +77,7 @@ export async function postNweet({
   const url = `https://${PROJECT_ID}-default-rtdb.asia-southeast1.firebasedatabase.app`
   + `/nweets.json?auth=${idToken}`;
 
-  await fetch(url, {
+  const response = await fetch(url, {
     method: 'POST',
     // headers: {
     //   'Content-Type': 'application/json',
@@ -89,6 +89,10 @@ export async function postNweet({
       createdAt,
     }),
   });
+
+  const { name: id } = await response.json();
+
+  return id;
 }
 
 export async function loadNweets(idToken) {

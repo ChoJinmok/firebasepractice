@@ -4,8 +4,6 @@ import {
   useEffect,
 } from 'react';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import { useGlobalState } from '../../GlobalStateProvider';
 
 import {
@@ -28,16 +26,18 @@ export default function useNweetForm() {
     (async () => {
       const refreshToken = loadItem('refreshToken');
 
-      const idToken = await postRefreshToken(refreshToken);
+      const { idToken } = await postRefreshToken(refreshToken);
 
       const nweetsObject = await loadNweets(idToken);
 
       if (!nweetsObject) return;
 
       const nweets = Object.entries(nweetsObject).map((nweetInformations) => {
-        const [id, { createdAt, nweetContent }] = nweetInformations;
+        const [id, { creatorId, createdAt, nweetContent }] = nweetInformations;
 
-        return { id, createdAt, nweetContent };
+        return {
+          id, creatorId, createdAt, nweetContent,
+        };
       });
 
       setState((prevState) => ({
@@ -54,32 +54,33 @@ export default function useNweetForm() {
     }));
   }, [setState]);
 
-  const setNweets = useCallback(({ nweetContent, createdAt }) => {
+  const setNweets = useCallback(({ id, nweetContent, createdAt }) => {
     setState((prevState) => ({
       ...prevState,
       nweetContent: '',
       nweets: [...prevState.nweets, {
-        id: uuidv4(), creatorId: uid, nweetContent, createdAt,
+        id, creatorId: uid, nweetContent, createdAt,
       }],
     }));
-  }, [uuidv4, setState]);
+  }, [setState]);
 
   const handleSubmit = useCallback(async () => {
     const refreshToken = loadItem('refreshToken');
 
-    const idToken = await postRefreshToken(refreshToken);
+    const { idToken } = await postRefreshToken(refreshToken);
 
     const { nweetContent } = state;
 
     const createdAt = Date.now();
 
-    postNweet({
+    const id = await postNweet({
       idToken, creatorId: uid, nweetContent, createdAt,
     });
 
-    setNweets({ nweetContent, createdAt });
+    setNweets({ id, nweetContent, createdAt });
   }, [state, setNweets]);
   return {
+    uid,
     state,
     handleChange,
     handleSubmit,
