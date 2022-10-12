@@ -21,6 +21,7 @@ export default function useNweetForm() {
 
   const [state, setState] = useState({
     nweetContent: '',
+    nweetImageAttachment: null,
     nweets: [],
   });
 
@@ -181,6 +182,26 @@ export default function useNweetForm() {
     handleToggleEditingClick(nweetId);
   }, [state, setState, handleToggleEditingClick]);
 
+  const handleFileChange = useCallback((imageFile) => {
+    const reader = new FileReader();
+
+    reader.onloadend = ({ currentTarget: { result } }) => {
+      setState((prevState) => ({
+        ...prevState,
+        nweetImageAttachment: result,
+      }));
+    };
+
+    reader.readAsDataURL(imageFile);
+  }, [setState]);
+
+  const handleClearPhotoClick = useCallback(() => {
+    setState((prevState) => ({
+      ...prevState,
+      nweetImageAttachment: null,
+    }));
+  }, [setState]);
+
   return {
     uid,
     state,
@@ -191,5 +212,7 @@ export default function useNweetForm() {
     handleEditingChange,
     handleCancelClick,
     handleEditSubmit,
+    handleFileChange,
+    handleClearPhotoClick,
   };
 }

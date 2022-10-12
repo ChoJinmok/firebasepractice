@@ -39,13 +39,15 @@ export default memo(({
       }) => (
         <li key={id}>
           {editing ? (
-            <EditForm
-              id={id}
-              newNweet={newNweet}
-              onCancelClick={handleCancelClick}
-              onEditingChange={handleEditingChange}
-              onEditSubmit={handleEditSubmit}
-            />
+            creatorId === uid && (
+              <EditForm
+                id={id}
+                newNweet={newNweet}
+                onCancelClick={handleCancelClick}
+                onEditingChange={handleEditingChange}
+                onEditSubmit={handleEditSubmit}
+              />
+            )
           ) : (
             <Nweet
               id={id}
