@@ -9,6 +9,7 @@ import { useGlobalState } from '../../GlobalStateProvider';
 import {
   postNweet,
   postRefreshToken,
+  uploadNweetImage,
   loadNweets,
   deleteNweet,
   editNweet,
@@ -78,19 +79,26 @@ export default function useNweetForm() {
   }, [setState]);
 
   const handleSubmit = useCallback(async () => {
-    const refreshToken = loadItem('refreshToken');
+    const { nweetImageAttachment } = state;
+    try {
+      uploadNweetImage({ uid, nweetImageAttachment });
+    } catch (error) {
+      console.log(error);
+    }
 
-    const { idToken } = await postRefreshToken(refreshToken);
+    // const refreshToken = loadItem('refreshToken');
 
-    const { nweetContent } = state;
+    // const { idToken } = await postRefreshToken(refreshToken);
 
-    const createdAt = Date.now();
+    // const { nweetContent } = state;
 
-    const id = await postNweet({
-      idToken, creatorId: uid, nweetContent, createdAt,
-    });
+    // const createdAt = Date.now();
 
-    setNweets({ id, nweetContent, createdAt });
+    // const id = await postNweet({
+    //   idToken, creatorId: uid, nweetContent, createdAt,
+    // });
+
+    // setNweets({ id, nweetContent, createdAt });
   }, [state, setNweets]);
 
   const handleDeleteClick = useCallback(async (nweetId) => {

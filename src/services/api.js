@@ -4,7 +4,11 @@ import {
   GithubAuthProvider,
 } from 'firebase/auth';
 
-import { auth } from '../firebase';
+import { v4 as uuidv4 } from 'uuid';
+
+import { ref, uploadString } from 'firebase/storage';
+
+import { auth, storage } from '../firebase';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const PROJECT_ID = process.env.REACT_APP_PROJECT_ID;
@@ -93,6 +97,14 @@ export async function postNweet({
   const { name: id } = await response.json();
 
   return id;
+}
+
+export async function uploadNweetImage({ uid, nweetImageAttachment }) {
+  const fileRef = ref(storage, `${uid}/${uuidv4()}`);
+
+  const response = await uploadString(fileRef, nweetImageAttachment, 'data_url');
+
+  console.log(response);
 }
 
 export async function loadNweets(idToken) {
