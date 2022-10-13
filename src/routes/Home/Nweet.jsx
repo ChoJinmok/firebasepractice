@@ -1,10 +1,11 @@
 import { memo } from 'react';
 
 export default memo(({
-  id, nweetContent, creatorId, uid, onDeleteClick, onToggleEditingClick,
+  id, nweetContent, creatorId, attachmentUrl, uid, onDeleteClick, onToggleEditingClick,
 }) => (
   <>
     <h4>{nweetContent}</h4>
+    {attachmentUrl && <img src={attachmentUrl} alt={`${id}`} width="50px" />}
     {creatorId === uid && (
       <>
         <button

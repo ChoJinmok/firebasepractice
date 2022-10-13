@@ -6,7 +6,11 @@ import {
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { ref, uploadString } from 'firebase/storage';
+import {
+  ref,
+  uploadString,
+  getDownloadURL,
+} from 'firebase/storage';
 
 import { auth, storage } from '../firebase';
 
@@ -76,7 +80,7 @@ export async function postAuthProvider(name) {
 }
 
 export async function postNweet({
-  idToken, creatorId, nweetContent, createdAt,
+  idToken, creatorId, nweetContent, createdAt, attachmentUrl,
 }) {
   const url = `https://${PROJECT_ID}-default-rtdb.asia-southeast1.firebasedatabase.app`
   + `/nweets.json?auth=${idToken}`;
@@ -91,6 +95,7 @@ export async function postNweet({
       creatorId,
       nweetContent,
       createdAt,
+      attachmentUrl,
     }),
   });
 
@@ -100,11 +105,13 @@ export async function postNweet({
 }
 
 export async function uploadNweetImage({ uid, nweetImageAttachment }) {
-  const fileRef = ref(storage, `${uid}/${uuidv4()}`);
+  const attachmentRef = ref(storage, `${uid}/${uuidv4()}`);
 
-  const response = await uploadString(fileRef, nweetImageAttachment, 'data_url');
+  await uploadString(attachmentRef, nweetImageAttachment, 'data_url');
 
-  console.log(response);
+  const attachmentUrl = await getDownloadURL(attachmentRef);
+
+  return attachmentUrl;
 }
 
 export async function loadNweets(idToken) {

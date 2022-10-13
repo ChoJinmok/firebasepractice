@@ -14,10 +14,12 @@ export default memo(({
     onChange(value);
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
-    onSubmit();
+    await onSubmit();
+
+    imageFileRef.current.value = '';
   }
 
   function handleFileChange({ target: { files: [imageFile] } }) {
@@ -25,9 +27,9 @@ export default memo(({
   }
 
   function handleClearPhotoClick() {
-    imageFileRef.current.value = '';
-
     onClearPhotoClick();
+
+    imageFileRef.current.value = '';
   }
 
   return (

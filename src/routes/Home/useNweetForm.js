@@ -37,7 +37,9 @@ export default function useNweetForm() {
       if (!nweetsObject) return;
 
       const nweets = Object.entries(nweetsObject).map((nweetInformations) => {
-        const [id, { creatorId, createdAt, nweetContent }] = nweetInformations;
+        const [id, {
+          creatorId, createdAt, nweetContent, attachmentUrl,
+        }] = nweetInformations;
 
         return {
           id,
@@ -46,6 +48,7 @@ export default function useNweetForm() {
           nweetContent,
           editing: false,
           newNweet: nweetContent,
+          attachmentUrl,
         };
       });
 
@@ -63,10 +66,13 @@ export default function useNweetForm() {
     }));
   }, [setState]);
 
-  const setNweets = useCallback(({ id, nweetContent, createdAt }) => {
+  const setNweets = useCallback(({
+    id, nweetContent, createdAt, attachmentUrl,
+  }) => {
     setState((prevState) => ({
       ...prevState,
       nweetContent: '',
+      nweetImageAttachment: null,
       nweets: [...prevState.nweets, {
         id,
         creatorId: uid,
@@ -74,31 +80,32 @@ export default function useNweetForm() {
         createdAt,
         editing: false,
         newNweet: nweetContent,
+        attachmentUrl,
       }],
     }));
   }, [setState]);
 
   const handleSubmit = useCallback(async () => {
     const { nweetImageAttachment } = state;
-    try {
-      uploadNweetImage({ uid, nweetImageAttachment });
-    } catch (error) {
-      console.log(error);
-    }
 
-    // const refreshToken = loadItem('refreshToken');
+    const attachmentUrl = nweetImageAttachment
+     && await uploadNweetImage({ uid, nweetImageAttachment });
 
-    // const { idToken } = await postRefreshToken(refreshToken);
+    const refreshToken = loadItem('refreshToken');
 
-    // const { nweetContent } = state;
+    const { idToken } = await postRefreshToken(refreshToken);
 
-    // const createdAt = Date.now();
+    const { nweetContent } = state;
 
-    // const id = await postNweet({
-    //   idToken, creatorId: uid, nweetContent, createdAt,
-    // });
+    const createdAt = Date.now();
 
-    // setNweets({ id, nweetContent, createdAt });
+    const id = await postNweet({
+      idToken, creatorId: uid, nweetContent, createdAt, attachmentUrl,
+    });
+
+    setNweets({
+      id, nweetContent, createdAt, attachmentUrl,
+    });
   }, [state, setNweets]);
 
   const handleDeleteClick = useCallback(async (nweetId) => {

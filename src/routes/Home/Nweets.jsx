@@ -35,7 +35,7 @@ export default memo(({
   return (
     <ul>
       {nweets.map(({
-        id, creatorId, nweetContent, editing, newNweet,
+        id, creatorId, nweetContent, editing, newNweet, attachmentUrl,
       }) => (
         <li key={id}>
           {editing ? (
@@ -53,6 +53,7 @@ export default memo(({
               id={id}
               creatorId={creatorId}
               nweetContent={nweetContent}
+              attachmentUrl={attachmentUrl}
               uid={uid}
               onDeleteClick={handleDeleteClick}
               onToggleEditingClick={handleToggleEditingClick}
