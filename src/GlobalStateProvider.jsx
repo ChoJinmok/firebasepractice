@@ -38,7 +38,6 @@ const reducers = {
   logout(state) {
     return {
       ...state,
-      idToken: '',
       refreshToken: '',
       uid: null,
     };

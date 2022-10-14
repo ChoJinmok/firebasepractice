@@ -15,6 +15,8 @@ import {
 
 import { auth, storage } from '../firebase';
 
+// import { filterNweetsByUid } from '../processData';
+
 const API_KEY = process.env.REACT_APP_API_KEY;
 const PROJECT_ID = process.env.REACT_APP_PROJECT_ID;
 
@@ -122,6 +124,25 @@ export function deleteNweetImage(attachmentUrl) {
 export async function loadNweets(idToken) {
   const url = `https://${PROJECT_ID}-default-rtdb.asia-southeast1.firebasedatabase.app`
   + `/nweets.json?auth=${idToken}`;
+
+  const response = await fetch(url);
+
+  const data = await response.json();
+
+  return data;
+}
+
+// export async function loadMyNweets({ idToken, uid }) {
+//   const data = await loadNweets(idToken);
+
+//   const filteredNweets = filterNweetsByUid({ data, uid });
+
+//   return filteredNweets;
+// }
+
+export async function loadMyNweets({ idToken, uid }) {
+  const url = `https://${PROJECT_ID}-default-rtdb.asia-southeast1.firebasedatabase.app`
+  + `/nweets.json?auth=${idToken}&orderBy="creatorId"&equalTo="${uid}"`;
 
   const response = await fetch(url);
 

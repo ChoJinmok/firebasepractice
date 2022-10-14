@@ -10,9 +10,6 @@ export default function Navigation() {
         <li>
           <Link to="/profile">My Profile</Link>
         </li>
-        <li>
-          <Link to="/edit">Edit Profile</Link>
-        </li>
       </ul>
     </nav>
   );

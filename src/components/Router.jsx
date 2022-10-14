@@ -8,8 +8,7 @@ import {
 import AuthPage from '../routes/Auth/AuthPage';
 import Navigation from './Navigation';
 import HomePage from '../routes/Home/HomePage';
-import Profile from '../routes/Profile';
-import EditProfile from '../routes/EditProfile';
+import Profile from '../routes/Profile/ProfileContainer';
 
 export default function Router({ refreshToken }) {
   return (
@@ -20,7 +19,6 @@ export default function Router({ refreshToken }) {
           <>
             <Route path="/" element={<HomePage />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/edit" element={<EditProfile />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </>
         ) : (
