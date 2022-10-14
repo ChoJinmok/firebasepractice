@@ -10,7 +10,7 @@ export default memo(({
       <>
         <button
           type="button"
-          onClick={onDeleteClick(id)}
+          onClick={onDeleteClick({ nweetId: id, attachmentUrl })}
         >
           Delete Nweet
         </button>

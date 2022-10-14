@@ -10,6 +10,7 @@ import {
   postNweet,
   postRefreshToken,
   uploadNweetImage,
+  deleteNweetImage,
   loadNweets,
   deleteNweet,
   editNweet,
@@ -108,12 +109,14 @@ export default function useNweetForm() {
     });
   }, [state, setNweets]);
 
-  const handleDeleteClick = useCallback(async (nweetId) => {
+  const handleDeleteClick = useCallback(async ({ nweetId, attachmentUrl }) => {
     const refreshToken = loadItem('refreshToken');
 
     const { idToken } = await postRefreshToken(refreshToken);
 
     deleteNweet({ nweetId, idToken });
+
+    deleteNweetImage(attachmentUrl);
 
     setState((prevState) => ({
       ...prevState,

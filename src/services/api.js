@@ -10,6 +10,7 @@ import {
   ref,
   uploadString,
   getDownloadURL,
+  deleteObject,
 } from 'firebase/storage';
 
 import { auth, storage } from '../firebase';
@@ -56,9 +57,7 @@ export async function postEmailPassword({ email, password, newAccount }) {
     throw new Error(data.error.message);
   }
 
-  const { refreshToken } = data;
-
-  const { uid } = await postRefreshToken(refreshToken);
+  const { refreshToken, localid: { uid } } = data;
 
   return { uid, refreshToken };
 }
@@ -112,6 +111,12 @@ export async function uploadNweetImage({ uid, nweetImageAttachment }) {
   const attachmentUrl = await getDownloadURL(attachmentRef);
 
   return attachmentUrl;
+}
+
+export function deleteNweetImage(attachmentUrl) {
+  const deleteRef = ref(storage, attachmentUrl);
+
+  deleteObject(deleteRef);
 }
 
 export async function loadNweets(idToken) {
