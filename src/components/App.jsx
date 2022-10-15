@@ -10,7 +10,10 @@ import {
   setInit,
 } from '../action';
 
-import { postRefreshToken } from '../services/api';
+import {
+  postRefreshToken,
+  loadAccountInfo,
+} from '../services/api';
 import { loadItem } from '../services/storage';
 
 export default function App() {
@@ -23,7 +26,9 @@ export default function App() {
       if (cookieToken) {
         dispatch(setRefreshToken(cookieToken));
 
-        const { uid } = await postRefreshToken(cookieToken);
+        const { idToken, uid } = await postRefreshToken(cookieToken);
+
+        const { displayName, email } = loadAccountInfo(idToken);
 
         dispatch(setUid(uid));
       }

@@ -54,7 +54,7 @@ export default function useAuthForm() {
     const { formFields: { email, password }, newAccount } = state;
 
     try {
-      const { uid, refreshToken } = await
+      const { uid, refreshToken, dispalyName } = await
       postEmailPassword({ email, password, newAccount });
 
       dispatch(setRefreshToken(refreshToken));
@@ -74,7 +74,9 @@ export default function useAuthForm() {
   }
 
   const handleClick = useCallback(async (name) => {
-    const { uid, refreshToken } = await postAuthProvider(name);
+    const {
+      uid, refreshToken, dispalyName, email,
+    } = await postAuthProvider(name);
 
     dispatch(setRefreshToken(refreshToken));
     dispatch(setUid(uid));
