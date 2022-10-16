@@ -19,7 +19,7 @@ import {
 import { loadItem } from '../../services/storage';
 
 export default function useNweetForm() {
-  const { state: { uid } } = useGlobalState();
+  const { state: { accountInfo: { uid } } } = useGlobalState();
 
   const [state, setState] = useState({
     nweetContent: '',

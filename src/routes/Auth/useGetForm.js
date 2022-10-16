@@ -7,7 +7,7 @@ import { useGlobalState } from '../../GlobalStateProvider';
 
 import {
   setRefreshToken,
-  setUid,
+  setAccountInfo,
 } from '../../action';
 
 import {
@@ -58,7 +58,7 @@ export default function useAuthForm() {
       postEmailPassword({ email, password, newAccount });
 
       dispatch(setRefreshToken(refreshToken));
-      dispatch(setUid(uid));
+      dispatch(setAccountInfo({ uid, email, dispalyName }));
 
       saveItem('refreshToken', refreshToken);
     } catch (error) {
@@ -79,7 +79,7 @@ export default function useAuthForm() {
     } = await postAuthProvider(name);
 
     dispatch(setRefreshToken(refreshToken));
-    dispatch(setUid(uid));
+    dispatch(setAccountInfo({ uid, email, dispalyName }));
 
     saveItem('refreshToken', refreshToken);
   }, [dispatch]);

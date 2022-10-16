@@ -9,7 +9,11 @@ const GlobalStateContext = createContext();
 
 const initailState = {
   refreshToken: '',
-  uid: null,
+  accoutInfo: {
+    uid: '',
+    email: '',
+    displayName: '',
+  },
   init: false,
 };
 
@@ -21,10 +25,10 @@ const reducers = {
     };
   },
 
-  setUid(state, { payload: uid }) {
+  setAccountInfo(state, { payload: accountInfo }) {
     return {
       ...state,
-      uid,
+      accountInfo,
     };
   },
 

@@ -5,10 +5,10 @@ export function setRefreshToken(refreshToken) {
   };
 }
 
-export function setUid(uid) {
+export function setAccountInfo(accountInfo) {
   return {
-    type: 'setUid',
-    payload: uid,
+    type: 'setAccountInfo',
+    payload: accountInfo,
   };
 }
 

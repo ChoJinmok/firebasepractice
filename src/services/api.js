@@ -49,9 +49,9 @@ export async function loadAccountInfo(idToken) {
     }),
   });
 
-  const { users: { dispalyName, email } } = await response.json();
+  const { users: [{ displayName, email }] } = await response.json();
 
-  return { dispalyName, email };
+  return { displayName, email };
 }
 
 export async function postEmailPassword({ email, password, newAccount }) {

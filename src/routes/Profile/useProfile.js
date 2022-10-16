@@ -12,7 +12,7 @@ import {
 } from '../../services/api';
 
 export default function useProfile() {
-  const { state: { uid }, dispatch } = useGlobalState();
+  const { state: { accountInfo: { uid } }, dispatch } = useGlobalState();
 
   useEffect(() => {
     (async () => {

@@ -6,7 +6,7 @@ import { useGlobalState } from '../GlobalStateProvider';
 
 import {
   setRefreshToken,
-  setUid,
+  setAccountInfo,
   setInit,
 } from '../action';
 
@@ -28,9 +28,9 @@ export default function App() {
 
         const { idToken, uid } = await postRefreshToken(cookieToken);
 
-        const { displayName, email } = loadAccountInfo(idToken);
+        const { displayName, email } = await loadAccountInfo(idToken);
 
-        dispatch(setUid(uid));
+        dispatch(setAccountInfo({ uid, email, displayName }));
       }
 
       dispatch(setInit(true));
