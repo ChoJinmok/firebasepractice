@@ -32,6 +32,16 @@ const reducers = {
     };
   },
 
+  setDisplayName(state, { payload: displayName }) {
+    return {
+      ...state,
+      accountInfo: {
+        ...state.accountInfo,
+        displayName,
+      },
+    };
+  },
+
   setInit(state, { payload: init }) {
     return {
       ...state,

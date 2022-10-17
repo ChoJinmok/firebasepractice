@@ -54,11 +54,11 @@ export default function useAuthForm() {
     const { formFields: { email, password }, newAccount } = state;
 
     try {
-      const { uid, refreshToken, dispalyName } = await
+      const { uid, refreshToken, displayName } = await
       postEmailPassword({ email, password, newAccount });
 
       dispatch(setRefreshToken(refreshToken));
-      dispatch(setAccountInfo({ uid, email, dispalyName }));
+      dispatch(setAccountInfo({ uid, email, displayName }));
 
       saveItem('refreshToken', refreshToken);
     } catch (error) {
@@ -75,11 +75,11 @@ export default function useAuthForm() {
 
   const handleClick = useCallback(async (name) => {
     const {
-      uid, refreshToken, dispalyName, email,
+      uid, refreshToken, displayName, email,
     } = await postAuthProvider(name);
 
     dispatch(setRefreshToken(refreshToken));
-    dispatch(setAccountInfo({ uid, email, dispalyName }));
+    dispatch(setAccountInfo({ uid, email, displayName }));
 
     saveItem('refreshToken', refreshToken);
   }, [dispatch]);

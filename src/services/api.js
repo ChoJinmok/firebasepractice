@@ -77,12 +77,12 @@ export async function postEmailPassword({ email, password, newAccount }) {
     throw new Error(data.error.message);
   }
 
-  const { refreshToken, dispalyName } = data;
+  const { refreshToken, displayName } = data;
 
   const { uid } = postRefreshToken(refreshToken);
 
   return {
-    uid, refreshToken, dispalyName,
+    uid, refreshToken, displayName,
   };
 }
 
@@ -97,12 +97,12 @@ export async function postAuthProvider(name) {
       uid,
       stsTokenManager: { refreshToken },
     },
-    dispalyName,
+    displayName,
     email,
   } = await signInWithPopup(auth, provider);
 
   return {
-    uid, refreshToken, dispalyName, email,
+    uid, refreshToken, displayName, email,
   };
 }
 
@@ -199,4 +199,24 @@ export function editNweet({ nweetId, idToken, newNweet }) {
       nweetContent: newNweet,
     }),
   });
+}
+
+export async function updateAccountInfo({ idToken, newDisplayName }) {
+  const url = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${API_KEY}`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      idToken,
+      displayName: newDisplayName,
+      // photoUrl: newPhotoUrl,
+    }),
+  });
+
+  const { displayName, photoUrl } = await response.json();
+
+  return { displayName, photoUrl };
 }

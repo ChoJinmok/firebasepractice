@@ -12,6 +12,13 @@ export function setAccountInfo(accountInfo) {
   };
 }
 
+export function setDisplayName(displayName) {
+  return {
+    type: 'setDisplayName',
+    payload: displayName,
+  };
+}
+
 export function setInit(init) {
   return {
     type: 'setInit',

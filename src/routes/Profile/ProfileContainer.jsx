@@ -1,14 +1,28 @@
 import useProfile from './useProfile';
 
+import ProfileForm from './ProfileForm';
+
 export default function Profile() {
-  const { handleClick } = useProfile();
+  const {
+    state: { newDisplayName },
+    handleChange,
+    handleSubmit,
+    handleClick,
+  } = useProfile();
 
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-    >
-      Log Out
-    </button>
+    <>
+      <ProfileForm
+        newDisplayName={newDisplayName}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+      />
+      <button
+        type="button"
+        onClick={handleClick}
+      >
+        Log Out
+      </button>
+    </>
   );
 }
