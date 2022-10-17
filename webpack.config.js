@@ -28,12 +28,14 @@ module.exports = () => {
       new webpack.DefinePlugin({
         'process.env': JSON.stringify(process.env),
       }),
-      // new HtmlWebpackPlugin({
-      //   template: path.resolve(__dirname, './public/index.html'),
-      // }),
+      new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, './public/index.html'),
+      }),
     ],
     output: {
       path: path.resolve(__dirname, 'docs'),
+      filename: 'app.js',
+      publicPath: '/docs/',
     },
   };
 };
