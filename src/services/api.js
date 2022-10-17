@@ -96,9 +96,9 @@ export async function postAuthProvider(name) {
     user: {
       uid,
       stsTokenManager: { refreshToken },
+      displayName,
+      email,
     },
-    displayName,
-    email,
   } = await signInWithPopup(auth, provider);
 
   return {

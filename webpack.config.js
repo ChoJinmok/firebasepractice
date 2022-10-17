@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
 const dotenv = require('dotenv');
 
 module.exports = () => {
@@ -28,13 +28,12 @@ module.exports = () => {
       new webpack.DefinePlugin({
         'process.env': JSON.stringify(process.env),
       }),
-      new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, './public/index.html'),
-      }),
+      // new HtmlWebpackPlugin({
+      //   template: path.resolve(__dirname, './public/index.html'),
+      // }),
     ],
     output: {
-      path: path.resolve(__dirname, 'docs/firebasepractice'),
-      filename: 'app.js',
+      path: path.resolve(__dirname, 'docs'),
     },
   };
 };
