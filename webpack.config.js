@@ -33,7 +33,7 @@ module.exports = () => {
       }),
     ],
     output: {
-      path: path.resolve(__dirname, 'docs'),
+      path: path.resolve(__dirname, 'docs/firebasepractice'),
       filename: 'app.js',
     },
   };
