@@ -2,7 +2,7 @@ import useProfile from './useProfile';
 
 import ProfileForm from './ProfileForm';
 
-export default function Profile() {
+export default function ProfileContainer() {
   const {
     state: { newDisplayName },
     handleChange,

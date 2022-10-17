@@ -1,4 +1,4 @@
-import useNweetForm from './useNweetForm';
+import useHome from './useHome';
 
 import NweetForm from './NweetForm';
 import Nweets from './Nweets';
@@ -7,24 +7,24 @@ export default function HomeContainer() {
   const {
     uid,
     state: { nweetContent, nweetImageAttachment, nweets },
-    handleChange,
+    handleNweetChange,
     handleSubmit,
+    handleFileChange,
+    handleClearPhotoClick,
     handleDeleteClick,
     handleToggleEditingClick,
     handleEditingChange,
     handleCancelClick,
     handleEditSubmit,
-    handleFileChange,
-    handleClearPhotoClick,
-  } = useNweetForm();
+  } = useHome();
 
   return (
-    <div>
+    <>
       <NweetForm
         nweetContent={nweetContent}
         nweetImageAttachment={nweetImageAttachment}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
+        onNweetChange={handleNweetChange}
+        onNweetSubmit={handleSubmit}
         onFileChange={handleFileChange}
         onClearPhotoClick={handleClearPhotoClick}
       />
@@ -37,6 +37,6 @@ export default function HomeContainer() {
         onCancelClick={handleCancelClick}
         onEditSubmit={handleEditSubmit}
       />
-    </div>
+    </>
   );
 }

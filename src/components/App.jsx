@@ -40,12 +40,12 @@ export default function App() {
   return (
     <>
       {init ? <Router refreshToken={refreshToken} /> : 'Initializing...'}
-      {/* <footer>
+      <footer>
         &copy;
         {new Date().getFullYear()}
         {' '}
         Nwitter
-      </footer> */}
+      </footer>
     </>
   );
 }

@@ -3,21 +3,21 @@ import { memo, useRef } from 'react';
 export default memo(({
   nweetContent,
   nweetImageAttachment,
-  onChange,
-  onSubmit,
+  onNweetChange,
+  onNweetSubmit,
   onFileChange,
   onClearPhotoClick,
 }) => {
   const imageFileRef = useRef(null);
 
   function handleChange({ target: { value } }) {
-    onChange(value);
+    onNweetChange(value);
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    await onSubmit();
+    await onNweetSubmit();
 
     imageFileRef.current.value = '';
   }

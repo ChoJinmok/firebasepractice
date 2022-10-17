@@ -60,7 +60,7 @@ export default function useNweetForm() {
     })();
   }, [setState]);
 
-  const handleChange = useCallback((value) => {
+  const handleNweetChange = useCallback((value) => {
     setState((prevState) => ({
       ...prevState,
       nweetContent: value,
@@ -86,7 +86,7 @@ export default function useNweetForm() {
     }));
   }, [setState]);
 
-  const handleSubmit = useCallback(async () => {
+  const handleNweetSubmit = useCallback(async () => {
     const { nweetImageAttachment } = state;
 
     const attachmentUrl = nweetImageAttachment
@@ -108,6 +108,26 @@ export default function useNweetForm() {
       id, nweetContent, createdAt, attachmentUrl,
     });
   }, [state, setNweets]);
+
+  const handleFileChange = useCallback((imageFile) => {
+    const reader = new FileReader();
+
+    reader.onloadend = ({ currentTarget: { result } }) => {
+      setState((prevState) => ({
+        ...prevState,
+        nweetImageAttachment: result,
+      }));
+    };
+
+    reader.readAsDataURL(imageFile);
+  }, [setState]);
+
+  const handleClearPhotoClick = useCallback(() => {
+    setState((prevState) => ({
+      ...prevState,
+      nweetImageAttachment: null,
+    }));
+  }, [setState]);
 
   const handleDeleteClick = useCallback(async ({ nweetId, attachmentUrl }) => {
     const refreshToken = loadItem('refreshToken');
@@ -200,31 +220,11 @@ export default function useNweetForm() {
     handleToggleEditingClick(nweetId);
   }, [state, setState, handleToggleEditingClick]);
 
-  const handleFileChange = useCallback((imageFile) => {
-    const reader = new FileReader();
-
-    reader.onloadend = ({ currentTarget: { result } }) => {
-      setState((prevState) => ({
-        ...prevState,
-        nweetImageAttachment: result,
-      }));
-    };
-
-    reader.readAsDataURL(imageFile);
-  }, [setState]);
-
-  const handleClearPhotoClick = useCallback(() => {
-    setState((prevState) => ({
-      ...prevState,
-      nweetImageAttachment: null,
-    }));
-  }, [setState]);
-
   return {
     uid,
     state,
-    handleChange,
-    handleSubmit,
+    handleNweetChange,
+    handleNweetSubmit,
     handleDeleteClick,
     handleToggleEditingClick,
     handleEditingChange,

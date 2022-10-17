@@ -6,19 +6,19 @@ import {
 } from 'react-router-dom';
 
 import AuthPage from '../routes/Auth/AuthPage';
-import Navigation from './Navigation';
+import NavigationPage from './Navigation/NavigationPage';
 import HomePage from '../routes/Home/HomePage';
-import Profile from '../routes/Profile/ProfileContainer';
+import ProfilePage from '../routes/Profile/ProfilePage';
 
 export default function Router({ refreshToken }) {
   return (
     <BrowserRouter>
-      {refreshToken && <Navigation />}
+      {refreshToken && <NavigationPage />}
       <Routes>
         {refreshToken ? (
           <>
             <Route path="/" element={<HomePage />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile" element={<ProfilePage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </>
         ) : (
