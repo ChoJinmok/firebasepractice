@@ -35,7 +35,6 @@ module.exports = () => {
     output: {
       path: path.resolve(__dirname, 'docs'),
       filename: 'app.js',
-      publicPath: '/docs/',
     },
   };
 };
