@@ -20,7 +20,7 @@ export default function useProfile() {
 
   const [state, setState] = useState({
     userNweets: [],
-    newDisplayName: displayName,
+    newDisplayName: displayName || '',
   });
 
   useEffect(() => {

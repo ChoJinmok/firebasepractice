@@ -25,7 +25,8 @@ export default function NavigationContainer({ onClick }) {
             href="/profile"
             onClick={handleClick}
           >
-            {`${displayName}의` || 'My'}
+            {displayName || 'My'}
+            {displayName && '의'}
             {' '}
             Profile
           </a>

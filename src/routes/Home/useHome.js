@@ -136,12 +136,12 @@ export default function useNweetForm() {
 
     deleteNweet({ nweetId, idToken });
 
-    deleteNweetImage(attachmentUrl);
-
     setState((prevState) => ({
       ...prevState,
       nweets: [...prevState.nweets].filter((({ id }) => id !== nweetId)),
     }));
+
+    if (attachmentUrl) deleteNweetImage(attachmentUrl);
   }, []);
 
   const handleToggleEditingClick = useCallback((nweetId) => {

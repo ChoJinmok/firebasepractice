@@ -8,7 +8,7 @@ export default function HomeContainer() {
     uid,
     state: { nweetContent, nweetImageAttachment, nweets },
     handleNweetChange,
-    handleSubmit,
+    handleNweetSubmit,
     handleFileChange,
     handleClearPhotoClick,
     handleDeleteClick,
@@ -24,7 +24,7 @@ export default function HomeContainer() {
         nweetContent={nweetContent}
         nweetImageAttachment={nweetImageAttachment}
         onNweetChange={handleNweetChange}
-        onNweetSubmit={handleSubmit}
+        onNweetSubmit={handleNweetSubmit}
         onFileChange={handleFileChange}
         onClearPhotoClick={handleClearPhotoClick}
       />
