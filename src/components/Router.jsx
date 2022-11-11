@@ -12,7 +12,6 @@ import ProfilePage from '../routes/Profile/ProfilePage';
 
 export default function Router({ refreshToken }) {
   return (
-    // <BrowserRouter basename={NODE_ENV ? '/' : '/firebasepractice'}>
     <BrowserRouter>
       {refreshToken && <NavigationPage />}
       <Routes>
