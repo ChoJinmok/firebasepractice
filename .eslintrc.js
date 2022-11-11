@@ -19,6 +19,9 @@ module.exports = {
   plugins: [
     'react',
   ],
+  globals: {
+    NODE_ENV: 'readonly',
+  },
   rules: {
     indent: ['error', 2],
     'no-trailing-spaces': 'error',
@@ -41,6 +44,7 @@ module.exports = {
     'key-spacing': ['error', { mode: 'strict' }],
     'arrow-spacing': ['error', { before: true, after: true }],
     'jsx-a11y/label-has-associated-control': ['error', { assert: 'either' }],
+    'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
 
     'react/prop-types': 'off',
     'react/jsx-uses-react': 'off',
