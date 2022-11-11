@@ -3,8 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const dotenv = require('dotenv');
 
-// module.exports = (_, argv) => {
-module.exports = () => {
+module.exports = (_, argv) => {
   dotenv.config();
 
   return {
@@ -28,21 +27,20 @@ module.exports = () => {
     plugins: [
       new webpack.DefinePlugin({
         'process.env': JSON.stringify(process.env),
-        // NODE_ENV: JSON.stringify(argv.mode),
+        NODE_ENV: JSON.stringify(argv.mode),
       }),
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, './public/index.html'),
-        // templateParameters: {
-        //   base: argv.mode ? '/' : '/firebasepractice',
-        // },
-        // publicPath: argv.mode ? '/' : '/firebasepractice',
-        publicPath: '/',
+        templateParameters: {
+          base: argv.mode ? '/' : '/firebasepractice',
+        },
+        publicPath: argv.mode ? '/' : '/firebasepractice',
       }),
-      // new HtmlWebpackPlugin({
-      //   template: path.resolve(__dirname, './public/index.html'),
-      //   publicPath: argv.mode ? '/' : '/firebasepractice',
-      //   filename: '404.html',
-      // }),
+      new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, './public/index.html'),
+        publicPath: argv.mode ? '/' : '/firebasepractice',
+        filename: '404.html',
+      }),
     ],
     // output: {
     //   path: path.resolve(__dirname, 'build'),
