@@ -31,15 +31,14 @@ module.exports = (_, argv) => {
       }),
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, './public/index.html'),
-        templateParameters: {
-          base: argv.mode ? '/' : '/firebasepractice',
-        },
+        // templateParameters: {
+        //   base: argv.mode ? '/' : '/firebasepractice',
+        // },
+        publicPath: argv.mode ? '/' : '/firebasepractice'
       }),
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, './public/index.html'),
-        templateParameters: {
-          base: argv.mode ? '/' : '/firebasepractice',
-        },
+        publicPath: argv.mode ? '/' : '/firebasepractice',
         filename: '404.html',
       }),
     ],
