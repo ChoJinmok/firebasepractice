@@ -34,7 +34,7 @@ module.exports = (_, argv) => {
         // templateParameters: {
         //   base: argv.mode ? '/' : '/firebasepractice',
         // },
-        publicPath: argv.mode ? '/' : '/firebasepractice'
+        publicPath: argv.mode ? '/' : '/firebasepractice',
       }),
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, './public/index.html'),
