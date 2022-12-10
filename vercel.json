@@ -1,12 +1,12 @@
 {
   "rewrites": [
     {
-      "source": "(.*)",
+      "source": "/((?!api/.*).*)",
       "destination": "/index.html"
     },
     {
-      "source": "/api/hello",
-      "destination": "https://nextjsintro-flame.vercel.app/api/hello"
+      "source": "/api/:match*",
+      "destination": "https://nextjsintro-flame.vercel.app/api/:match*"
     }
   ]
 }
