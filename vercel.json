@@ -3,6 +3,10 @@
     {
       "source": "(.*)",
       "destination": "/index.html"
+    },
+    {
+      "source": "/api/:match*",
+      "destination": "https://nextjsintro-flame.vercel.app/api/:match*"
     }
   ]
 }

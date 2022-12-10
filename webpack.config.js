@@ -23,6 +23,12 @@ module.exports = () => {
     },
     devServer: {
       historyApiFallback: true,
+      proxy: {
+        '/api': {
+          target: 'https://nextjsintro-flame.vercel.app',
+          changeOrigin: true,
+        },
+      },
     },
     plugins: [
       new webpack.DefinePlugin({

@@ -77,12 +77,10 @@ export async function postEmailPassword({ email, password, newAccount }) {
     throw new Error(data.error.message);
   }
 
-  const { refreshToken, displayName } = data;
-
-  const { uid } = postRefreshToken(refreshToken);
+  const { refreshToken, displayName, localId: uid } = data;
 
   return {
-    uid, refreshToken, displayName,
+    uid, refreshToken, displayName, email,
   };
 }
 
