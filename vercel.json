@@ -5,8 +5,8 @@
       "destination": "/index.html"
     },
     {
-      "source": "/api/:match*",
-      "destination": "https://nextjsintro-flame.vercel.app/api/:match*"
+      "source": "/api/hello",
+      "destination": "https://nextjsintro-flame.vercel.app/api/hello"
     }
   ]
 }
